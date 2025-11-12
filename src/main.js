@@ -9,16 +9,42 @@ resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
 
+
+const bc = new Audio("bn.mp3")
+const mkb = new Audio("maka-bhosda-aag-meme-amitabh-bachan-made-with-Voicemod.mp3")
+
+document.querySelector(".playbutton").addEventListener("click", () => {
+
+  bc.currentTime = 0
+  bc.play()
+
+
+  // Start the game
+
+  restartGame()
+
+})
+
+
+
+
+
+
+
+
+
+
+
 // Bird properties
 let bird = {
-  x: window.innerWidth / 4,
+  x: window.innerWidth / 2,
   y: 150,
   width: 30,
   height: 30,
   gravity: .6,
   lift: -10,
   velocity: 0,
-  speed: 1    
+  speed: 1
 };
 
 // Pipes
@@ -33,6 +59,8 @@ let gameOver = false;
 document.addEventListener("keydown", function (e) {
   if (e.code === "Space") {
     bird.velocity = bird.lift;
+    bc.currentTime = 0
+    bc.play()
     if (gameOver) restartGame();
   }
 });
@@ -120,6 +148,9 @@ function loop() {
   pipes.forEach(pipe => {
     if (detectCollision(pipe)) {
       gameOver = true;
+      mkb.currentTime = 0
+      mkb.play()
+
     }
 
     if (pipe.x + pipe.width === bird.x) {
@@ -140,5 +171,5 @@ function loop() {
   requestAnimationFrame(loop);
 }
 
-// Start the game
-loop();
+
+// loop();
