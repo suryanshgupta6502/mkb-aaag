@@ -3,27 +3,35 @@ const gameContainer = document.getElementById("game-container");
 const birdElement = document.getElementById("bird");
 const scoreDisplay = document.getElementById("score-display");
 
+
+const container = document.querySelector("#game-container");
+const rect = container.getBoundingClientRect();
+console.log(rect.width);
+
 // --- Constants ---
-const GAME_WIDTH = 600;
-const GAME_HEIGHT = 600;
+const GAME_WIDTH = rect.width
+const GAME_HEIGHT = rect.height
 const PIPE_SPEED = 3;
 const PIPE_GAP = 250;
 const PIPE_INTERVAL = 200;
 
 // --- Audio ---
-const flapSound = new Audio("bn.mp3");
-const hitSound = new Audio("maka-bhosda-aag-meme-amitabh-bachan-made-with-Voicemod.mp3");
+const bnc = new Audio("bn.mp3");
+const mkb = new Audio("maka-bhosda-aag-meme-amitabh-bachan-made-with-Voicemod.mp3");
 
 // --- Game State ---
 let bird, pipes, frame, score, gameOver;
+// console.log(document.querySelector("#bird").style.width);
+const bird_bound = document.querySelector("#bird").getBoundingClientRect()
+console.log(bird_bound.width);
 
 // --- Bird Properties ---
 function initBird() {
   return {
-    x: 100,
+    x: rect.width / 2,
     y: 150,
-    width: 30,
-    height: 30,
+    width: bird_bound.width,
+    height: bird_bound.height,
     gravity: 0.6,
     lift: -10,
     velocity: 0
@@ -32,8 +40,8 @@ function initBird() {
 
 // --- Event Listeners ---
 document.querySelector(".playbutton").addEventListener("click", () => {
-  flapSound.currentTime = 0;
-  flapSound.play();
+  bnc.currentTime = 0;
+  bnc.play();
   restartGame();
 });
 
@@ -44,10 +52,15 @@ document.addEventListener("keydown", e => {
       return;
     }
     bird.velocity = bird.lift;   // negative velocity => jump
-    flapSound.currentTime = 0;
-    flapSound.play();
+    bnc.currentTime = 0;
+    bnc.play();
   }
 });
+
+
+restartGame();
+
+
 
 // --- Restart Game ---
 function restartGame() {
@@ -79,6 +92,8 @@ function createPipe() {
   const topPipe = document.createElement("div");
   topPipe.className = "pipe-top";
   topPipe.style.height = topHeight + "px";
+
+  console.log(topPipe.style.height);
 
   const bottomPipe = document.createElement("div");
   bottomPipe.className = "pipe-bottom";
@@ -144,10 +159,13 @@ function updatePipes() {
 
 // --- Collision Detection ---
 function detectCollision(pipe) {
+  const tolerance = 70;
+  // console.log(bird.y, bird.height);
+
   return (
     bird.x < pipe.x + pipe.width &&
     bird.x + bird.width > pipe.x &&
-    (bird.y < pipe.top || bird.y + bird.height > pipe.bottom)
+    (bird.y < (pipe.top - tolerance) || bird.y + bird.height > (pipe.bottom + tolerance))
   );
 }
 
@@ -155,8 +173,8 @@ function detectCollision(pipe) {
 function triggerGameOver() {
   if (gameOver) return;
   gameOver = true;
-  hitSound.currentTime = 0;
-  hitSound.play();
+  mkb.currentTime = 0;
+  mkb.play();
 }
 
 // --- Main Game Loop ---

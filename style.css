@@ -16,27 +16,61 @@ canvas {
   height: 100vh;
 }
 
+.city {
+  z-index: 0;
+  position: absolute;
+  top: 0;
+
+  /* overflow: hidden; */
+
+  width: 100%;
+  overflow: hidden;
+
+}
+
+.city img {
+
+  /* max-width: 100%; */
+  height: auto;
+  /* display: block; */
+}
+
 
 #game-container {
+  z-index: 10;
   position: relative;
-  width: 600px;
+  width: 100%;
   /* Fixed width for game logic */
-  height: 600px;
+  height: 100%;
   /* Fixed height for game logic */
-  margin: 20px auto;
-  border: 3px solid #333;
+  /* margin: 20px auto; */
+  /* border: 3px solid #333; */
   overflow: hidden;
-  background-color: skyblue;
+  background-color: transparent;
+
 }
 
 #bird {
   position: absolute;
-  width: 50px;
-  height: 50px;
-  background-color: yellow;
-  border-radius: 50%;
+  width: 10%;
+  height: auto;
+  height: 15%;
+  /* background-color: skyblue; */
+  border-radius: 5%;
   /* Transition for smoother movement, though not strictly Flappy Bird style */
   transition: background-color 0.1s;
+
+  background-image: url("sgd.png");
+  /* background-image: url("ooh-shit-transparent.png"); */
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+
+
+  /* -webkit-mask-image: url('sgd.png'); */
+  /* -webkit-mask-repeat: no-repeat; */
+  /* -webkit-mask-size: contain; */
+
 }
 
 #score-display {
@@ -62,16 +96,45 @@ canvas {
 .pipe-bottom {
   position: absolute;
   width: 100%;
+
+  /* background-color: red;  */
+
   /* Use the GIF as the pipe texture! */
   background-image: url("fire-fire-emote.gif");
-  background-size: 50px auto;
+  background-repeat: no-repeat;
+  /* background-position: center; */
+
+  background-size: 80px 100%;
+  /* background-size: contain; */
   /* Ensures the GIF covers the 50px width */
 }
 
 .pipe-top {
   top: 0;
+  /* bottom: 0; */
+  transform: rotate(180deg);
 }
 
 .pipe-bottom {
   bottom: 0;
+}
+
+
+.playbutton {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+  /* background-color: red; */
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  display: none;
+
+
 }
