@@ -8,6 +8,9 @@ const container = document.querySelector("#game-container");
 const rect = container.getBoundingClientRect();
 console.log(rect.width);
 
+const isMobile = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+
 // --- Constants ---
 const GAME_WIDTH = rect.width
 const GAME_HEIGHT = rect.height
@@ -28,7 +31,7 @@ console.log(bird_bound.width);
 // --- Bird Properties ---
 function initBird() {
   return {
-    x: rect.width / 2,
+    x: rect.width / 3,
     y: 150,
     width: bird_bound.width,
     height: bird_bound.height,
@@ -44,7 +47,7 @@ document.querySelector(".playbutton").addEventListener("click", (e) => {
   bnc.play();
   document.querySelector(".playbutton").style.display = "none"
 
-  restartGame();
+  restartGame()
 });
 
 
@@ -68,7 +71,7 @@ document.addEventListener("touchstart", e => {
   handleJump();
 });
 
-
+// let lastTime
 // --- Restart Game ---
 function restartGame() {
   // Clean up existing pipes
@@ -80,6 +83,9 @@ function restartGame() {
   frame = 0;
   score = 0;
   gameOver = false;
+  // lastTime = null
+
+
 
   // Position bird visually
   birdElement.style.top = bird.y + "px";
@@ -87,6 +93,8 @@ function restartGame() {
   scoreDisplay.textContent = "Score: 0";
 
   loop();
+  // requestAnimationFrame(loop)
+
 }
 
 // --- Create a Pipe ---
@@ -121,9 +129,11 @@ function createPipe() {
 }
 
 // --- Update Bird ---
-function updateBird() {
-  bird.velocity += bird.gravity;   // gravity pulls down
-  bird.y += bird.velocity;         // update position
+function updateBird(delta) {
+  const dt = delta / 16.67
+
+  bird.velocity += bird.gravity * dt;   // gravity pulls down
+  bird.y += bird.velocity * dt;         // update position
 
   // boundary collision
   if (bird.y <= 0 || bird.y + bird.height >= GAME_HEIGHT) {
@@ -136,9 +146,10 @@ function updateBird() {
 
 
 // --- Update Pipes ---
-function updatePipes() {
+function updatePipes(delta) {
+  const dt = delta / 16.67
   pipes.forEach(pipe => {
-    pipe.x -= PIPE_SPEED;
+    pipe.x -= PIPE_SPEED * dt;
     pipe.element.style.left = pipe.x + "px";
 
     // Collision
@@ -191,12 +202,46 @@ function triggerGameOver() {
 
 }
 
+
+let lastTime = 0
 // --- Main Game Loop ---
-function loop() {
+function loop(timestamp) {
   if (gameOver) return;
 
-  updateBird();
-  updatePipes();
+  if (!lastTime) lastTime = timestamp;
+  let delta = timestamp - lastTime; // time in ms since last frame
+  lastTime = timestamp;
+
+  delta = Math.min(delta, 8);
+
+  console.log(delta);
+
+
+  // if (lastTime === null) {
+  //   // This is the first frame after a restart.
+  //   // We set lastTime and exit, waiting for the next frame to calculate movement.
+  //   lastTime = currentTime;
+  //   requestAnimationFrame(loop);
+  //   return;
+  // }
+
+  // Calculation for all subsequent frames
+  // const deltaTime = currentTime - lastTime;
+  // const TARGET_FPS_INTERVAL = 1000 / 60;
+  // const timeScale = deltaTime / TARGET_FPS_INTERVAL;
+
+
+  const deltaCap = isMobile ? 8 : 20;
+
+  if (deltaCap) {
+
+    updateBird(deltaCap);
+    updatePipes(deltaCap);
+
+  }
+
+
+
 
   scoreDisplay.textContent = `Score: ${score}`;
   frame++;
