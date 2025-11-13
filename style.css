@@ -16,9 +16,62 @@ canvas {
   height: 100vh;
 }
 
-.playbutton {
+
+#game-container {
+  position: relative;
+  width: 600px;
+  /* Fixed width for game logic */
+  height: 600px;
+  /* Fixed height for game logic */
+  margin: 20px auto;
+  border: 3px solid #333;
+  overflow: hidden;
+  background-color: skyblue;
+}
+
+#bird {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background-color: yellow;
+  border-radius: 50%;
+  /* Transition for smoother movement, though not strictly Flappy Bird style */
+  transition: background-color 0.1s;
+}
+
+#score-display {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+  z-index: 10;
+}
+
+/* Pipe Styling */
+.pipe-container {
+  position: absolute;
+  width: 50px;
+  height: 100%;
+  transition: left 0.01s linear;
+  /* Optional: Makes pipe movement smoother */
+}
+
+.pipe-top,
+.pipe-bottom {
+  position: absolute;
+  width: 100%;
+  /* Use the GIF as the pipe texture! */
+  background-image: url("fire-fire-emote.gif");
+  background-size: 50px auto;
+  /* Ensures the GIF covers the 50px width */
+}
+
+.pipe-top {
+  top: 0;
+}
+
+.pipe-bottom {
+  bottom: 0;
 }
