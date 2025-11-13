@@ -39,27 +39,34 @@ function initBird() {
 }
 
 // --- Event Listeners ---
-document.querySelector(".playbutton").addEventListener("click", () => {
+document.querySelector(".playbutton").addEventListener("click", (e) => {
   bnc.currentTime = 0;
   bnc.play();
+  document.querySelector(".playbutton").style.display = "none"
+
   restartGame();
 });
 
+
+function handleJump() {
+  if (gameOver) {
+    // restartGame();
+    return;
+  }
+  bird.velocity = bird.lift; // negative velocity => jump
+  bnc.currentTime = 0;
+  bnc.play();
+}
+
 document.addEventListener("keydown", e => {
   if (e.code === "Space") {
-    if (gameOver) {
-      restartGame();
-      return;
-    }
-    bird.velocity = bird.lift;   // negative velocity => jump
-    bnc.currentTime = 0;
-    bnc.play();
+    handleJump()
   }
 });
 
-
-restartGame();
-
+document.addEventListener("touchstart", e => {
+  handleJump();
+});
 
 
 // --- Restart Game ---
@@ -175,6 +182,13 @@ function triggerGameOver() {
   gameOver = true;
   mkb.currentTime = 0;
   mkb.play();
+
+  console.log(document.querySelector(".playbutton").style.display);
+
+
+  document.querySelector(".playbutton").style.display = "flex"
+  // console.log(document.querySelector(".playbutton").style.display="flex")
+
 }
 
 // --- Main Game Loop ---
