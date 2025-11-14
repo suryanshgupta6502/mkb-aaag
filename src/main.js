@@ -212,7 +212,7 @@ function loop(timestamp) {
   let delta = timestamp - lastTime; // time in ms since last frame
   lastTime = timestamp;
 
-  delta = Math.min(delta, 8);
+  // delta = Math.min(delta, 8);
 
   console.log(delta);
 
@@ -233,10 +233,10 @@ function loop(timestamp) {
 
   const deltaCap = isMobile ? 8 : 20;
 
-  if (deltaCap) {
+  if (delta) {
 
-    updateBird(deltaCap);
-    updatePipes(deltaCap);
+    updateBird(delta);
+    updatePipes(delta);
 
   }
 

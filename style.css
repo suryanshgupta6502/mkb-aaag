@@ -63,7 +63,7 @@ canvas {
   /* Transition for smoother movement, though not strictly Flappy Bird style */
   transition: background-color 0.1s;
 
-  background-image: url("sgd.png");
+  background-image: url("/sgd.png");
   /* background-image: url("ooh-shit-transparent.png"); */
   background-repeat: no-repeat;
   background-size: contain;
@@ -103,7 +103,7 @@ canvas {
   /* background-color: red;  */
 
   /* Use the GIF as the pipe texture! */
-  background-image: url("fire-fire-emote.gif");
+  background-image: url("/fire-fire-emote.gif");
   background-repeat: no-repeat;
   /* background-position: center; */
 
